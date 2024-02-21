@@ -1,0 +1,102 @@
+.profile-container {
+  border-radius: 15px; /* bordes redondeados para la sombra */
+  background-color: #f8f9fa; /* un color de fondo suave */
+}
+
+.profile-image {
+  margin-top: 15px; /* espacio adicional arriba de las imágenes */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.profile-image-size {
+  height: 660px;
+  width: 332px;
+  object-fit: cover; /* Esto asegurará que la imagen cubra el área sin distorsionarse */
+}
+
+.player-form-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('/assets/img/jugador-perfil.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 660px;
+  width: 332px;
+  margin: auto;
+}
+
+.player-form-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 0;
+}
+
+.player-form-background > div {
+  position: relative;
+  z-index: 1;
+  background: white; /* Añadimos un fondo ligeramente opaco para mejorar la legibilidad */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.coach-form-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('/assets/img/entrenador-perfil.png'); /* Asegúrate de usar la imagen correcta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 660px;
+  width: 332px;
+  margin: auto;
+}
+
+.coach-form-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5); /* Ajusta la opacidad según sea necesario */
+  z-index: 0;
+}
+
+.coach-form-background > div {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8); /* Fondo ligeramente opaco */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center; /* Centra el texto y los botones */
+}
+
+.button-group button {
+  width: 100%; /* Hace que los botones ocupen todo el ancho del contenedor */
+  margin-bottom: 5px; /* Espacio entre botones */
+}
+
+.btn i.fas {
+  margin-left: 5px; /* Ajusta el espacio entre el texto y el icono */
+}
+
