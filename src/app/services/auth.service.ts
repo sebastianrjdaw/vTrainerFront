@@ -14,28 +14,20 @@ export class AuthService {
   login(loginData: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, loginData);
   }
-
-  setPerfil(codigoJugador: string): Observable<any> {
-    const body = {
-      tipoUsuario: 'jugador',
-      codigo_jugador: codigoJugador,
-    };
-    return this.http.post(`${this.apiUrl}/set-perfil`, body);
+  register(userData: {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  verificarCodigoJugador(codigoJugador: string): Observable<any> {
-    const body = {
-      tipoUsuario: 'jugador',
-      codigo_jugador: codigoJugador,
-    };
-    return this.http.post(`${this.apiUrl}/set-perfil`, body);
-  }
-
-  establecerPerfilEntrenador(): Observable<any> {
-    const body = {
-      tipoUsuario: 'entrenador',
-    };
-    return this.http.post(`${this.apiUrl}/set-perfil`, body);
+  establecerPerfil(datosPerfil: {
+    tipoUsuario: string;
+    codigo_jugador?: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/set-perfil`, datosPerfil);
   }
 
   handleLoginSuccess() {

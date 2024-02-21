@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service'; // Ajusta la ruta según la ubicación de tu servicio
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-set-profile',
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service'; // Ajusta la ruta s
 export class SetProfileComponent {
   isJugadorSelected: boolean = false;
   isEntrenadorSelected: boolean = false;
-  codigoJugador: string = ''; // Propiedad para el binding del input
+  codigoJugador: string = '';
 
   constructor(private authService: AuthService) {}
 
@@ -28,27 +28,19 @@ export class SetProfileComponent {
     this.isEntrenadorSelected = false;
   }
 
-  verificarCodigo(): void {
-    this.authService.verificarCodigoJugador(this.codigoJugador).subscribe({
+  confirmarSeleccion(): void {
+    let datosPerfil = {
+      tipoUsuario: this.isJugadorSelected ? 'jugador' : 'entrenador',
+      codigo_jugador: this.codigoJugador || undefined,
+    };
+
+    this.authService.establecerPerfil(datosPerfil).subscribe({
       next: (response) => {
-        console.log('Código verificado con éxito:', response);
-        // Manejo de la respuesta exitosa
+        console.log(`${datosPerfil.tipoUsuario} perfil establecido:`, response);
+        this.resetSelection(); // Opcionalmente, resetea la selección después de establecer el perfil
       },
       error: (error) => {
-        console.error('Error al verificar el código:', error);
-        // Manejo del error
-      },
-    });
-  }
-  gestionarEquipoAmateur(): void {
-    this.authService.establecerPerfilEntrenador().subscribe({
-      next: (response) => {
-        console.log('Perfil de entrenador establecido:', response);
-        // Aquí puedes manejar la respuesta exitosa, como redireccionar o mostrar un mensaje
-      },
-      error: (error) => {
-        console.error('Error al establecer el perfil de entrenador:', error);
-        // Manejar el error, por ejemplo, mostrando un mensaje al usuario
+        console.error('Error al establecer el perfil:', error);
       },
     });
   }
