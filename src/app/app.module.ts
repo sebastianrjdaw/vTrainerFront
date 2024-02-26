@@ -11,6 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { EntrenadorHomeComponent } from './components/entrenador/entrenador-home/entrenador-home.component';
+import { JugadorHomeComponent } from './components/jugador/jugador-home/jugador-home.component';
+import { MainViewComponent } from './components/entrenador/main-view/main-view.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +22,9 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     RegisterComponent,
     SetProfileComponent,
     WelcomeComponent,
+    EntrenadorHomeComponent,
+    JugadorHomeComponent,
+    MainViewComponent,
   ],
   imports: [
     FormsModule,

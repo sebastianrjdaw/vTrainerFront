@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router'; // Importa Router
 
 @Component({
   selector: 'app-set-profile',
@@ -11,7 +12,10 @@ export class SetProfileComponent {
   isEntrenadorSelected: boolean = false;
   codigoJugador: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router // Inyecta Router
+  ) {}
 
   selectJugador(): void {
     this.isJugadorSelected = true;
@@ -37,7 +41,12 @@ export class SetProfileComponent {
     this.authService.establecerPerfil(datosPerfil).subscribe({
       next: (response) => {
         console.log(`${datosPerfil.tipoUsuario} perfil establecido:`, response);
-        this.resetSelection(); // Opcionalmente, resetea la selección después de establecer el perfil
+        // Redirige según el tipo de perfil
+        if (datosPerfil.tipoUsuario === 'jugador') {
+          this.router.navigate(['/jugador-home']);
+        } else if (datosPerfil.tipoUsuario === 'entrenador') {
+          this.router.navigate(['/entrenador-home']);
+        }
       },
       error: (error) => {
         console.error('Error al establecer el perfil:', error);

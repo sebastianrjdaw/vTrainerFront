@@ -84,12 +84,12 @@
                   <input
                     type="password"
                     class="form-control form-control-user"
-                    formControlName="passwordConfirmation"
+                    formControlName="password_confirmation"
                     placeholder="Repetir Contraseña"
                   />
                   <div
                     *ngIf="
-                      registerForm.get('passwordConfirmation')?.touched &&
+                      registerForm.get('password_confirmation')?.touched &&
                       registerForm.errors?.['notSame']
                     "
                     class="text-danger"
