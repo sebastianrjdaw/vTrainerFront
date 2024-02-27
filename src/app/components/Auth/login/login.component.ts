@@ -20,9 +20,10 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          console.log(response);
           localStorage.setItem('authToken', response.access_token);
-          // Aquí manejas la respuesta exitosa y rediriges
-          this.authService.handleLoginSuccess();
+          //Aquí manejas la respuesta exitosa y rediriges
+          this.authService.obtenerTipoPerfilYRedirigir();
         },
         error: (error) => {
           // Manejo de error

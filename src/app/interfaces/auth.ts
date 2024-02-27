@@ -9,3 +9,11 @@ export interface RegisterData {
   password: string;
   password_confirmation: string;
 }
+
+export interface Perfil {
+  user_id: number;
+  esPremium: boolean;
+  tipoUsuario: 'jugador' | 'entrenador';
+  created_at: string;
+  updated_at: string;
+}

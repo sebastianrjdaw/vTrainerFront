@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router'; // Importa Router
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router'; // Importa Router
   templateUrl: './set-profile.component.html',
   styleUrls: ['./set-profile.component.css'],
 })
-export class SetProfileComponent {
+export class SetProfileComponent implements OnInit {
   isJugadorSelected: boolean = false;
   isEntrenadorSelected: boolean = false;
   codigoJugador: string = '';
@@ -16,6 +16,10 @@ export class SetProfileComponent {
     private authService: AuthService,
     private router: Router // Inyecta Router
   ) {}
+
+  ngOnInit() {
+    this.authService.obtenerTipoPerfilYRedirigir();
+  }
 
   selectJugador(): void {
     this.isJugadorSelected = true;
@@ -41,7 +45,6 @@ export class SetProfileComponent {
     this.authService.establecerPerfil(datosPerfil).subscribe({
       next: (response) => {
         console.log(`${datosPerfil.tipoUsuario} perfil establecido:`, response);
-        // Redirige según el tipo de perfil
         if (datosPerfil.tipoUsuario === 'jugador') {
           this.router.navigate(['/jugador-home']);
         } else if (datosPerfil.tipoUsuario === 'entrenador') {
