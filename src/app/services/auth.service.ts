@@ -97,10 +97,10 @@ export class AuthService {
     if (tipoUsuario) {
       switch (tipoUsuario) {
         case 'jugador':
-          this.router.navigate(['/jugador-home']);
+          this.router.navigate(['/jugador']);
           break;
         case 'entrenador':
-          this.router.navigate(['/entrenador-home']);
+          this.router.navigate(['/entrenador/main']);
           break;
         default:
           this.router.navigate(['/set-profile']);

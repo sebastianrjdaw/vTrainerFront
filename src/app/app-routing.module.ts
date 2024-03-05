@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'set-profile', component: SetProfileComponent },
   { path: 'jugador-home', component: JugadorHomeComponent },
-  { path: 'entrenador-home', component: EntrenadorHomeComponent },
+  { path: 'entrenador', component: EntrenadorHomeComponent },
   {
     path: 'entrenador',
     loadChildren: () =>
