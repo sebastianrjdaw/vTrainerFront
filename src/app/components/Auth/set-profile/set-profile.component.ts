@@ -39,19 +39,20 @@ export class SetProfileComponent implements OnInit {
   confirmarSeleccion(): void {
     let datosPerfil = {
       tipoUsuario: this.isJugadorSelected ? 'jugador' : 'entrenador',
-      codigo_jugador: this.codigoJugador || undefined,
+      //codigo_jugador: this.codigoJugador || undefined,
     };
 
     this.authService.establecerPerfil(datosPerfil).subscribe({
       next: (response) => {
         console.log(`${datosPerfil.tipoUsuario} perfil establecido:`, response);
         if (datosPerfil.tipoUsuario === 'jugador') {
-          this.router.navigate(['/jugador-home']);
+          this.router.navigate(['/jugador/main']);
         } else if (datosPerfil.tipoUsuario === 'entrenador') {
-          this.router.navigate(['/entrenador-home']);
+          this.router.navigate(['/entrenador/main']);
         }
       },
       error: (error) => {
+        console.log(datosPerfil);
         console.error('Error al establecer el perfil:', error);
       },
     });

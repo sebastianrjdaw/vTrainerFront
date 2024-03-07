@@ -25,7 +25,7 @@ export class EntrenadorHomeComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la información del equipo:', error);
-        this.router.navigate(['equipo']);
+        this.router.navigate(['entrenador/equipo']);
       }
     );
   }

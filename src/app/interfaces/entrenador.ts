@@ -1,9 +1,21 @@
 export interface Equipo {
   id?: number;
   competicion: string;
-  //created_at: string;
   nombre: string;
   ubicacion: string;
-  //updated_at: string;
-  //user_id: number;
+}
+
+export interface Jugador {
+  id: number;
+  nombre: string;
+  apellidos: string;
+  dorsal: number;
+  altura: number;
+  posicion_id: number;
+  codigo_jugador: number;
+  activo: boolean;
+}
+export interface Posicion {
+  id: number;
+  nombre: string;
 }

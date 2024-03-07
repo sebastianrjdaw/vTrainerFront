@@ -1,1 +1,181 @@
-<p>jugadores-crud works!</p>
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Jugadores</h3>
+  <div class="card shadow">
+    <div class="card-body">
+      <button
+        class="btn btn-success btn-sm mb-3"
+        (click)="mostrarFormularioCrear()"
+      >
+        <i class="fas fa-plus"></i> Añadir Jugador
+      </button>
+      <div *ngIf="mostrarFormulario" class="card shadow mb-4 p-4">
+        <form [formGroup]="jugadorForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <!-- Nombre -->
+            <div class="col">
+              <div class="form-group">
+                <label for="nombre"><strong>Nombre</strong></label>
+                <input
+                  formControlName="nombre"
+                  class="form-control"
+                  type="text"
+                  placeholder="Nombre del jugador"
+                  id="nombre"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Apellidos -->
+            <div class="col">
+              <div class="form-group">
+                <label for="apellidos"><strong>Apellidos</strong></label>
+                <input
+                  formControlName="apellidos"
+                  class="form-control"
+                  type="text"
+                  placeholder="Apellidos del jugador"
+                  id="apellidos"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <!-- Dorsal -->
+            <div class="col">
+              <div class="form-group">
+                <label for="dorsal"><strong>Dorsal</strong></label>
+                <input
+                  formControlName="dorsal"
+                  class="form-control"
+                  type="number"
+                  placeholder="Dorsal"
+                  id="dorsal"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Altura -->
+            <div class="col">
+              <div class="form-group">
+                <label for="altura"><strong>Altura (cm)</strong></label>
+                <input
+                  formControlName="altura"
+                  class="form-control"
+                  type="number"
+                  placeholder="Altura en centímetros"
+                  id="altura"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <!-- Posición -->
+            <div class="col">
+              <div class="form-group">
+                <label for="posicion_id"><strong>Posición</strong></label>
+                <select
+                  formControlName="posicion_id"
+                  class="form-control"
+                  id="posicion_id"
+                  required
+                >
+                  <option value="" disabled>Seleccione una posición</option>
+                  <option
+                    *ngFor="let posicion of posiciones"
+                    [value]="posicion.id"
+                  >
+                    {{ posicion.nombre }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+              <button
+                *ngIf="!esEdicion"
+                class="btn btn-success btn-sm"
+                type="submit"
+              >
+                Crear Jugador
+              </button>
+              <button
+                *ngIf="esEdicion"
+                class="btn btn-primary btn-sm"
+                type="submit"
+              >
+                Actualizar Jugador
+              </button>
+              <button
+                class="btn btn-secondary btn-sm"
+                (click)="ocultarFormulario()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <table
+        datatable
+        class="table table-bordered table-striped"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Dorsal</th>
+            <th>Altura (cm)</th>
+            <th>Posición</th>
+            <th>Codigo de Activacion</th>
+            <th>Activo</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Ejemplo de jugadores, deberás iterar con *ngFor -->
+          <tr *ngFor="let jugador of jugadores">
+            <td>{{ jugador.nombre }}</td>
+            <td>{{ jugador.apellidos }}</td>
+            <td>{{ jugador.dorsal }}</td>
+            <td>{{ jugador.altura }}</td>
+            <td>{{ jugador.posicion_id }}</td>
+            <td>{{ jugador.codigo_jugador }}</td>
+            <td>
+              <i
+                class="fas fa-circle"
+                [ngClass]="{
+                  'text-success': jugador.activo,
+                  'text-danger': !jugador.activo
+                }"
+              ></i>
+            </td>
+            <td>
+              <!-- Botones Editar y Borrar -->
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="editarJugador(jugador)"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="borrarJugador(jugador.id)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-secondary btn-sm" (click)="volver()">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>

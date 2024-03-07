@@ -20,27 +20,32 @@
           <div class="col">
             <div class="form-group">
               <label for="competicion"><strong>Competición</strong></label>
-              <input
+              <select
                 formControlName="competicion"
                 class="form-control"
-                type="text"
-                placeholder="Competición"
                 id="competicion"
                 required
-              />
+              >
+                <option value="" disabled>Seleccione una competición</option>
+                <option value="SM1">SM1</option>
+                <option value="SM2">SM2</option>
+                <option value="SF1">SF1</option>
+                <option value="SF2">SF2</option>
+              </select>
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="ubicacion"><strong>Ubicación</strong></label>
-              <input
+              <select
                 formControlName="ubicacion"
                 class="form-control"
-                type="text"
-                placeholder="Ubicación"
                 id="ubicacion"
                 required
-              />
+              >
+                <option value="" disabled>Seleccione una ubicación</option>
+                <option value="ES">ES</option>
+              </select>
             </div>
           </div>
         </div>

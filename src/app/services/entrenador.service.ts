@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Jugador, Posicion } from '../interfaces/entrenador';
 @Injectable({
   providedIn: 'root',
 })
@@ -26,5 +26,25 @@ export class EntrenadorService {
     let endPoint = '/update-equipo';
     return this.http.post(this.apiUrl + endPoint, equipoData);
   }
-  // Aquí puedes agregar más métodos relacionados con las acciones del entrenador.
+
+  obtenerJugadores(): Observable<Jugador[]> {
+    return this.http.get<Jugador[]>(`${this.apiUrl}/jugadores-equipo`);
+  }
+
+  obtenerPosiciones(): Observable<Posicion[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/posiciones`);
+  }
+
+  crearJugador(jugador: Jugador): Observable<Jugador> {
+    return this.http.post<Jugador>(`${this.apiUrl}/create-jugador`, jugador);
+  }
+
+  actualizarJugador(id: number, jugador: Jugador): Observable<any> {
+    jugador.id = id;
+    return this.http.post(`${this.apiUrl}/update-jugador/`, jugador);
+  }
+
+  eliminarJugador(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/jugadores/${id}`);
+  }
 }

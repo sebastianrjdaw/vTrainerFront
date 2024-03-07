@@ -19,7 +19,7 @@ export class EquipoComponent implements OnInit {
     competicion: new FormControl('', [Validators.required]),
     ubicacion: new FormControl('', [
       Validators.required,
-      Validators.minLength(3),
+      Validators.minLength(2),
     ]),
   });
 
@@ -37,7 +37,7 @@ export class EquipoComponent implements OnInit {
 
   onSubmit() {
     if (this.equipoForm.valid) {
-      if (this.equipo) {
+      if (this.equipo.nombre.length > 0) {
         // Actualizar equipo existente
         this.entrenadorService
           .actualizarEquipo(this.equipoForm.value)
