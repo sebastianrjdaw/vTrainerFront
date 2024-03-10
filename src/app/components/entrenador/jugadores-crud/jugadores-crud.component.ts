@@ -40,7 +40,6 @@ export class JugadoresCrudComponent implements OnInit {
     // Aquí llamas al servicio para obtener todos los jugadores y los asignas a la variable jugadores
     this.entrenadorService.obtenerJugadores().subscribe({
       next: (data: any) => {
-        console.log(data);
         this.jugadores = data.jugadores; // Asumiendo que tu servicio retorna un array de jugadores
       },
       error: (err) => console.error(err),
@@ -51,7 +50,6 @@ export class JugadoresCrudComponent implements OnInit {
     // Aquí llamas al servicio para obtener todos los jugadores y los asignas a la variable jugadores
     this.entrenadorService.obtenerPosiciones().subscribe({
       next: (data: any) => {
-        console.log(data);
         this.posiciones = data.posiciones; // Asumiendo que tu servicio retorna un array de jugadores
       },
       error: (err) => console.error(err),
@@ -70,7 +68,6 @@ export class JugadoresCrudComponent implements OnInit {
 
   editarJugador(jugador: Jugador): void {
     this.jugadorIdEdit = jugador.id;
-    console.log(jugador.id);
     this.mostrarFormulario = true;
     this.esEdicion = true;
     this.jugadorForm.patchValue(jugador);
@@ -79,12 +76,16 @@ export class JugadoresCrudComponent implements OnInit {
   borrarJugador(jugadorId: number): void {
     // Llamar al servicio para borrar el jugador
     this.entrenadorService.eliminarJugador(jugadorId).subscribe({
-      next: () => {
+      next: (response) => {
         // Eliminar el jugador de la lista local para no tener que recargar desde el servidor
         this.jugadores = this.jugadores.filter((j) => j.id !== jugadorId);
       },
       error: (err) => console.error(err),
     });
+  }
+  getPosicionNombre(posicionId: number): string {
+    const posicion = this.posiciones.find((p) => p.id === posicionId);
+    return posicion ? posicion.nombre : 'No especificado';
   }
 
   onSubmit(): void {

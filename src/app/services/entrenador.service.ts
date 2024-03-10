@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Jugador, Posicion } from '../interfaces/entrenador';
+import {
+  Jugador,
+  Posicion,
+  Entrenamiento,
+  Etiqueta,
+} from '../interfaces/entrenador';
 @Injectable({
   providedIn: 'root',
 })
@@ -45,6 +50,43 @@ export class EntrenadorService {
   }
 
   eliminarJugador(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/jugadores/${id}`);
+    let deleteData = { id: id };
+    return this.http.post(`${this.apiUrl}/delete-jugador`, deleteData);
+  }
+
+  obtenerEntrenamientosDef(): Observable<Entrenamiento[]> {
+    return this.http.get<Entrenamiento[]>(
+      `${this.apiUrl}/entrenamientos-defaults`
+    );
+  }
+
+  obtenerEntrenamientosUser(): Observable<Entrenamiento[]> {
+    return this.http.get<Entrenamiento[]>(`${this.apiUrl}/entrenamientos-user`);
+  }
+  obtenerEtiquetas(): Observable<Etiqueta[]> {
+    return this.http.get<Etiqueta[]>(`${this.apiUrl}/etiquetas`);
+  }
+
+  crearEntrenamiento(entrenamiento: Entrenamiento): Observable<Entrenamiento> {
+    return this.http.post<Entrenamiento>(
+      `${this.apiUrl}/create-entrenamiento`,
+      entrenamiento
+    );
+  }
+
+  actualizarEntrenamiento(
+    id: number,
+    entrenamiento: Entrenamiento
+  ): Observable<Entrenamiento> {
+    entrenamiento.id = id;
+    return this.http.post<Entrenamiento>(
+      `${this.apiUrl}/update-entrenamiento/`,
+      entrenamiento
+    );
+  }
+
+  eliminarEntrenamiento(id: number): Observable<any> {
+    const deleteData = { id: id };
+    return this.http.post(`${this.apiUrl}/delete-entrenamiento`, deleteData);
   }
 }

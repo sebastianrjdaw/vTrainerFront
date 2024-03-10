@@ -19,3 +19,15 @@ export interface Posicion {
   id: number;
   nombre: string;
 }
+
+export interface Etiqueta {
+  id?: number;
+  titulo: string;
+}
+
+export interface Entrenamiento {
+  id: number;
+  titulo: string;
+  cuerpo: string;
+  etiquetas: Etiqueta[];
+}

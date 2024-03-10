@@ -1,1 +1,132 @@
-<p>entrenamientos-crud works!</p>
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Entrenamientos</h3>
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="mb-3">
+        <button
+          class="btn btn-success btn-sm"
+          (click)="mostrarFormularioCrear()"
+        >
+          <i class="fas fa-plus"></i> Añadir Entrenamiento
+        </button>
+      </div>
+      <div *ngIf="mostrarFormulario" class="mb-4 p-4 bg-light shadow-sm">
+        <form [formGroup]="entrenamientoForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="titulo"><strong>Título</strong></label>
+            <input
+              formControlName="titulo"
+              class="form-control"
+              type="text"
+              placeholder="Título del entrenamiento"
+              id="titulo"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="cuerpo"><strong>Cuerpo</strong></label>
+            <textarea
+              formControlName="cuerpo"
+              class="form-control"
+              placeholder="Descripción del entrenamiento"
+              id="cuerpo"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <select formControlName="etiquetas" class="form-control" multiple>
+              <option *ngFor="let etiqueta of etiquetas" [value]="etiqueta.id">
+                {{ etiqueta.titulo }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group mt-3">
+            <button
+              *ngIf="!esEdicion"
+              class="btn btn-success btn-sm mr-2"
+              type="submit"
+            >
+              Crear Entrenamiento
+            </button>
+            <button
+              *ngIf="esEdicion"
+              class="btn btn-primary btn-sm mr-2"
+              type="submit"
+            >
+              Actualizar Entrenamiento
+            </button>
+            <button
+              class="btn btn-secondary btn-sm"
+              (click)="ocultarFormulario()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            datatable
+            class="table table-bordered table-striped"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Etiquetas</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Iterar sobre entrenamientos predeterminados -->
+              <tr *ngFor="let entrenamiento of entrenamientosDef">
+                <td>{{ entrenamiento.titulo }}</td>
+                <td>{{ entrenamiento.cuerpo }}</td>
+                <td>
+                  <!-- Convertir el array de etiquetas en una cadena de texto -->
+                  <span *ngFor="let etiqueta of entrenamiento.etiquetas"
+                    >{{ etiqueta.titulo }}&nbsp;</span
+                  >
+                </td>
+                <td>Default</td>
+                <td>
+                  <!-- Acciones como editar o eliminar, si es permitido -->
+                </td>
+              </tr>
+              <!-- Iterar sobre entrenamientos del usuario -->
+              <tr *ngFor="let entrenamiento of entrenamientosUser">
+                <td>{{ entrenamiento.titulo }}</td>
+                <td>{{ entrenamiento.cuerpo }}</td>
+                <td>
+                  <span *ngFor="let etiqueta of entrenamiento.etiquetas"
+                    >{{ etiqueta.titulo }}&nbsp;</span
+                  >
+                </td>
+                <td>Personal</td>
+                <td>
+                  <button
+                    class="btn btn-primary btn-sm mr-2 mb-2"
+                    (click)="editarEntrenamiento(entrenamiento)"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm mr-2 mb-2"
+                    (click)="borrarEntrenamiento(entrenamiento.id)"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group"></div>
+      </div>
+    </div>
+  </div>
+</div>

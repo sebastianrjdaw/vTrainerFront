@@ -2,13 +2,15 @@
   <h3 class="text-dark mb-4">Jugadores</h3>
   <div class="card shadow">
     <div class="card-body">
-      <button
-        class="btn btn-success btn-sm mb-3"
-        (click)="mostrarFormularioCrear()"
-      >
-        <i class="fas fa-plus"></i> Añadir Jugador
-      </button>
-      <div *ngIf="mostrarFormulario" class="card shadow mb-4 p-4">
+      <div class="mb-3">
+        <button
+          class="btn btn-success btn-sm"
+          (click)="mostrarFormularioCrear()"
+        >
+          <i class="fas fa-plus"></i> Añadir Jugador
+        </button>
+      </div>
+      <div *ngIf="mostrarFormulario" class="mb-4 p-4 bg-light shadow-sm">
         <form [formGroup]="jugadorForm" (ngSubmit)="onSubmit()">
           <div class="form-row">
             <!-- Nombre -->
@@ -96,20 +98,20 @@
             <div class="form-group">
               <button
                 *ngIf="!esEdicion"
-                class="btn btn-success btn-sm"
+                class="btn btn-success btn-sm mr-2 mb-2"
                 type="submit"
               >
                 Crear Jugador
               </button>
               <button
                 *ngIf="esEdicion"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary btn-sm mr-2 mb-2"
                 type="submit"
               >
                 Actualizar Jugador
               </button>
               <button
-                class="btn btn-secondary btn-sm"
+                class="btn btn-secondary btn-sm mb-2"
                 (click)="ocultarFormulario()"
               >
                 Cancelar
@@ -118,64 +120,65 @@
           </div>
         </form>
       </div>
-
-      <table
-        datatable
-        class="table table-bordered table-striped"
-        width="100%"
-        cellspacing="0"
-      >
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Dorsal</th>
-            <th>Altura (cm)</th>
-            <th>Posición</th>
-            <th>Codigo de Activacion</th>
-            <th>Activo</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Ejemplo de jugadores, deberás iterar con *ngFor -->
-          <tr *ngFor="let jugador of jugadores">
-            <td>{{ jugador.nombre }}</td>
-            <td>{{ jugador.apellidos }}</td>
-            <td>{{ jugador.dorsal }}</td>
-            <td>{{ jugador.altura }}</td>
-            <td>{{ jugador.posicion_id }}</td>
-            <td>{{ jugador.codigo_jugador }}</td>
-            <td>
-              <i
-                class="fas fa-circle"
-                [ngClass]="{
-                  'text-success': jugador.activo,
-                  'text-danger': !jugador.activo
-                }"
-              ></i>
-            </td>
-            <td>
-              <!-- Botones Editar y Borrar -->
-              <button
-                class="btn btn-primary btn-sm"
-                (click)="editarJugador(jugador)"
-              >
-                <i class="fas fa-edit"></i>
-              </button>
-              <button
-                class="btn btn-danger btn-sm"
-                (click)="borrarJugador(jugador.id)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="btn btn-secondary btn-sm" (click)="volver()">
-        Volver
-      </button>
+      <div class="table-responsive">
+        <table
+          datatable
+          class="table table-bordered table-striped"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Dorsal</th>
+              <th>Altura (cm)</th>
+              <th>Posición</th>
+              <th>Codigo de Activacion</th>
+              <th>Activo</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Ejemplo de jugadores, deberás iterar con *ngFor -->
+            <tr *ngFor="let jugador of jugadores">
+              <td>{{ jugador.nombre }}</td>
+              <td>{{ jugador.apellidos }}</td>
+              <td>{{ jugador.dorsal }}</td>
+              <td>{{ jugador.altura }}</td>
+              <td>{{ getPosicionNombre(jugador.posicion_id) }}</td>
+              <td>{{ jugador.codigo_jugador }}</td>
+              <td>
+                <i
+                  class="fas fa-circle"
+                  [ngClass]="{
+                    'text-success': jugador.activo,
+                    'text-danger': !jugador.activo
+                  }"
+                ></i>
+              </td>
+              <td>
+                <!-- Botones Editar y Borrar -->
+                <button
+                  class="btn btn-primary btn-sm mr-2 mb-2"
+                  (click)="editarJugador(jugador)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-danger btn-sm mr-2 mb-2"
+                  (click)="borrarJugador(jugador.id)"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-secondary btn-sm mt-3" (click)="volver()">
+          Volver
+        </button>
+      </div>
     </div>
   </div>
 </div>
