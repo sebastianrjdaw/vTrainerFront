@@ -5,6 +5,7 @@ import { JugadoresCrudComponent } from './jugadores-crud/jugadores-crud.componen
 import { EquipoComponent } from './equipo/equipo.component';
 import { EntrenadorHomeComponent } from './entrenador-home/entrenador-home.component';
 import { MainViewComponent } from './main-view/main-view.component';
+import { SesionEntrenamientosComponent } from './sesion-entrenamientos/sesion-entrenamientos.component';
 const routes: Routes = [
   {
     path: '', // Ruta raíz del módulo Entrenador
@@ -15,6 +16,8 @@ const routes: Routes = [
       { path: 'entrenamientos', component: EntrenamientosCrudComponent },
       { path: 'jugadores', component: JugadoresCrudComponent },
       { path: 'equipo', component: EquipoComponent },
+      { path: 'sesiones', component: SesionEntrenamientosComponent },
+
       // ... (cualquier otra subruta de entrenador)
     ],
   },

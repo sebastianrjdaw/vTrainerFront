@@ -1,0 +1,19 @@
+.card-entrenamiento {
+  border: 1px solid rgb(201, 116, 4); /* Borde verde */
+  margin-bottom: 15px; /* Margen para separar las cartas */
+}
+.lista-entrenamientos {
+  max-height: 800px; /* Ajusta este valor según la altura de tus tarjetas */
+  overflow-y: auto;  /* Habilita el scroll vertical si el contenido excede la altura máxima */
+}
+
+
+.etiqueta {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 2px 8px;
+  background-color: rgb(201, 116, 4);
+  color: white;
+  border-radius: 15px; /* Bordes redondeados para las etiquetas */
+  font-size: 0.8em;
+}

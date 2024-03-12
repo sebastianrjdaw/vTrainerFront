@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Sesiones</h3>
+  <div class="row">
+    <!-- Columna para los entrenamientos -->
+    <div class="col-md-3">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Entrenamientos</h6>
+        </div>
+        <div class="card-body lista-entrenamientos">
+          <!-- Itera sobre el arreglo de entrenamientos y muestra cada uno en una carta -->
+          <div
+            *ngFor="let entrenamiento of entrenamientosDef"
+            class="card card-entrenamiento"
+          >
+            <div class="card-body">
+              <h5 class="card-title">{{ entrenamiento.titulo }}</h5>
+              <div class="etiquetas">
+                <!-- Itera sobre el arreglo de etiquetas del entrenamiento -->
+                <span
+                  *ngFor="let etiqueta of entrenamiento.etiquetas"
+                  class="etiqueta"
+                  >{{ etiqueta.titulo }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            *ngFor="let entrenamiento of entrenamientosUser"
+            class="card card-entrenamiento"
+          >
+            <div class="card-body">
+              <h5 class="card-title">{{ entrenamiento.titulo }}</h5>
+              <div class="etiquetas">
+                <!-- Itera sobre el arreglo de etiquetas del entrenamiento -->
+                <span
+                  *ngFor="let etiqueta of entrenamiento.etiquetas"
+                  class="etiqueta"
+                  >{{ etiqueta.titulo }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Columna para el calendario semanal -->
+    <div class="col-md-9">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Calendario Semanal</h6>
+        </div>
+        <div class="card-body">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
