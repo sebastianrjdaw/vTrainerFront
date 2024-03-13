@@ -81,18 +81,38 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
   cargarSesionesUsuario() {
     this.entrenadorService.getSesionesUsuario().subscribe({
       next: (sesiones: any[]) => {
-        console.log(sesiones);
-        // Usa any o define una interfaz adecuada para tipar correctamente tu respuesta
-        this.eventosCalendario = sesiones.flatMap((sesion) =>
-          sesion.entrenamientos.map((entrenamiento: any) => ({
-            title: `Entrenamiento ${entrenamiento.titulo}`, // Usar el título del entrenamiento
-            start: sesion.hora_inicio, // Asegúrate de que esto es una cadena de fecha en formato ISO
-            end: sesion.hora_fin, // Asegúrate de que esto es una cadena de fecha en formato ISO
-            extendedProps: {
-              entrenamientoId: entrenamiento.id,
-            },
-          }))
-        );
+        // Considera definir una interfaz que represente la estructura de tus sesiones
+        this.eventosCalendario = sesiones.flatMap((sesion) => {
+          // Asume que la hora de inicio de la sesión es la hora de inicio del primer entrenamiento
+          let horaInicioSesion = new Date(sesion.hora_inicio);
+
+          return sesion.entrenamientos.map((entrenamiento: any, index: any) => {
+            // Clona la hora de inicio para evitar mutaciones
+            let horaInicioEntrenamiento = new Date(horaInicioSesion.getTime());
+
+            // Ajusta la hora de inicio basándose en la posición del entrenamiento
+            horaInicioEntrenamiento.setHours(
+              horaInicioSesion.getHours() + index
+            );
+
+            // Calcula la hora de fin como una hora después del inicio
+            let horaFinEntrenamiento = new Date(
+              horaInicioEntrenamiento.getTime()
+            );
+            horaFinEntrenamiento.setHours(
+              horaInicioEntrenamiento.getHours() + 1
+            );
+
+            return {
+              title: `Entrenamiento ${entrenamiento.titulo}`,
+              start: horaInicioEntrenamiento.toISOString(),
+              end: horaFinEntrenamiento.toISOString(),
+              extendedProps: {
+                entrenamientoId: entrenamiento.id,
+              },
+            };
+          });
+        });
 
         this.calendarOptions.events = this.eventosCalendario;
         this.changeDetectorRef.detectChanges();
