@@ -47,7 +47,6 @@ export class EquipoComponent implements OnInit {
               // Aquí podrías redireccionar o mostrar un mensaje de éxito
             },
             (error: any) => {
-              console.log(this.equipoForm.value);
               console.error('Error al actualizar equipo', error);
             }
           );

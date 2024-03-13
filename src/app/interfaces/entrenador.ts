@@ -39,3 +39,16 @@ export interface Sesion {
   hora_fin: string;
   entrenamientos: number[];
 }
+
+export interface EventoCalendario {
+  title: string;
+  start: string;
+  end: string;
+  extendedProps: any; // Asumiendo que extendedProps es un diccionario
+}
+
+export interface EventosPorDia {
+  [fecha: string]: EventoCalendario[];
+}
+
+// Asegúrate de que la estructura que pasas a `crearSesiones` y luego a `enviarSesionesAlBackend` coincida con la estructura de tu tipo `Sesion`.

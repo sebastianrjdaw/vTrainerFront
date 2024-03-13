@@ -9,13 +9,20 @@ import interactionPlugin, {
   Draggable,
   EventReceiveArg,
 } from '@fullcalendar/interaction';
-import { Entrenamiento, Etiqueta, Sesion } from 'src/app/interfaces/entrenador';
+import {
+  Entrenamiento,
+  Etiqueta,
+  Sesion,
+  EventoCalendario,
+  EventosPorDia,
+} from 'src/app/interfaces/entrenador';
 import { EntrenadorService } from 'src/app/services/entrenador.service';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { EventInput } from '@fullcalendar/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-sesion-entrenamientos',
@@ -24,21 +31,19 @@ import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 })
 export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
   @ViewChild('externalEvents') externalEvents: ElementRef | null = null;
-
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   entrenamientos: Entrenamiento[] = [];
   entrenamientosUser: Entrenamiento[] = [];
   entrenamientosDef: Entrenamiento[] = [];
   etiquetas: Etiqueta[] = [];
   sesiones: Sesion[] = [];
   eventosCalendario: EventInput[] = [];
-
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
-    plugins: [timeGridPlugin],
+    plugins: [timeGridPlugin, interactionPlugin],
     editable: true,
     selectable: true,
     droppable: true,
-    drop: this.handleEventReceive.bind(this),
     events: this.eventosCalendario,
     slotMinTime: '09:00:00',
     slotMaxTime: '22:00:00',
@@ -54,10 +59,11 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     },
 
     eventDragStop: (eventDragStopEvent) => {
+      console.log(eventDragStopEvent.event.extendedProps);
+      console.log(eventDragStopEvent.event.extendedProps['entrenamientoid']);
+      console.log(eventDragStopEvent.event.extendedProps['entrenamientoId']);
       console.log('EVENT DRAG STOP !!!');
     },
-
-    eventReceive: this.handleEventReceive.bind(this),
   };
 
   constructor(
@@ -66,9 +72,35 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    this.cargarSesionesUsuario();
     this.cargaEntrenamientosUser();
     this.cargaEntrenamientosDef();
     this.cargaEtiquetas();
+  }
+
+  cargarSesionesUsuario() {
+    this.entrenadorService.getSesionesUsuario().subscribe({
+      next: (sesiones: any[]) => {
+        console.log(sesiones);
+        // Usa any o define una interfaz adecuada para tipar correctamente tu respuesta
+        this.eventosCalendario = sesiones.flatMap((sesion) =>
+          sesion.entrenamientos.map((entrenamiento: any) => ({
+            title: `Entrenamiento ${entrenamiento.titulo}`, // Usar el título del entrenamiento
+            start: sesion.hora_inicio, // Asegúrate de que esto es una cadena de fecha en formato ISO
+            end: sesion.hora_fin, // Asegúrate de que esto es una cadena de fecha en formato ISO
+            extendedProps: {
+              entrenamientoId: entrenamiento.id,
+            },
+          }))
+        );
+
+        this.calendarOptions.events = this.eventosCalendario;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar las sesiones del usuario', error);
+      },
+    });
   }
 
   cargaEtiquetas() {
@@ -95,32 +127,18 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  handleEventReceive(info: any) {
-    const entrenamientoId = Number(info.event._def.extendedProps.id); // Asegúrate de usar la propiedad correcta para obtener el ID
-    const fechaInicio = info.event.start;
-    let fechaFin = new Date(fechaInicio);
-    fechaFin.setHours(fechaInicio.getHours() + 3); // Ajusta la hora de fin sumando 3 horas a la hora de inicio
-
-    const nuevaSesion: Sesion = {
-      fecha: this.formatDate(fechaInicio), // Asegúrate de formatear la fecha correctamente
-      hora_inicio: fechaInicio.toISOString(),
-      hora_fin: fechaFin.toISOString(),
-      entrenamientos: [entrenamientoId],
-    };
-
-    // Aquí agregarías la nueva sesión a tu estado o la enviarías a tu backend
-  }
-
   ngAfterViewInit() {
     if (this.externalEvents) {
       new Draggable(this.externalEvents.nativeElement, {
         itemSelector: '.fc-event',
         eventData: function (eventEl) {
-          let event = {
-            title: eventEl.innerText, // Obtiene el texto del evento para el título
-            duration: eventEl.getAttribute('data-duration'), // Usa un atributo data-duration para la duración del evento
+          return {
+            title: eventEl.innerText,
+            duration: eventEl.getAttribute('data-duration'),
+            extendedProps: {
+              entrenamientoId: eventEl.getAttribute('data-id'), // Ejemplo de propiedad personalizada
+            },
           };
-          return event;
         },
       });
     }
@@ -138,7 +156,91 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     return [year, month, day].join('-');
   }
 
+  agruparEventosPorDia(eventos: EventoCalendario[]): EventosPorDia {
+    const eventosPorDia: EventosPorDia = {};
+
+    eventos.forEach((evento) => {
+      const fecha = evento.start.split('T')[0]; // Asumiendo que `start` es una cadena en formato ISO
+
+      if (!eventosPorDia[fecha]) {
+        eventosPorDia[fecha] = [];
+      }
+
+      eventosPorDia[fecha].push({
+        title: evento.title,
+        start: evento.start,
+        end: evento.end,
+        extendedProps: {
+          entrenamientoId: evento.extendedProps['entrenamientoId'],
+        },
+      });
+    });
+
+    return eventosPorDia;
+  }
+
+  crearSesiones(eventosPorDia: EventosPorDia): Sesion[] {
+    return Object.keys(eventosPorDia).map((fecha) => {
+      const eventosDelDia = eventosPorDia[fecha];
+      const entrenamientoIds = Array.from(
+        new Set(
+          eventosDelDia.map((evento) =>
+            parseInt(evento.extendedProps['entrenamientoId'])
+          )
+        )
+      );
+
+      // Asumiendo que `start` y `end` son objetos Date, o puedes convertirlos usando new Date()
+      const horaInicio = new Date(eventosDelDia[0].start)
+        .toLocaleString('sv-SE')
+        .replace(' ', 'T');
+      const horaFin = new Date(eventosDelDia[eventosDelDia.length - 1].end)
+        .toLocaleString('sv-SE')
+        .replace(' ', 'T');
+
+      return {
+        fecha: fecha,
+        hora_inicio: horaInicio,
+        hora_fin: horaFin,
+        entrenamientos: entrenamientoIds,
+      };
+    });
+  }
+
+  enviarSesionesAlBackend(sesiones: Sesion[]) {
+    sesiones.forEach((sesion) => {
+      this.entrenadorService.crearSesion(sesion).subscribe({
+        next: (respuesta) => console.log('Sesión guardada', respuesta),
+        error: (error) => console.error('Error al guardar sesión', error),
+      });
+    });
+  }
+
   guardarSesiones() {
-    console.log('hola');
+    // Asegúrate de que la referencia al componente del calendario esté definida
+    if (this.calendarComponent && this.calendarComponent.getApi) {
+      const calendarApi = this.calendarComponent.getApi();
+      const eventos: EventoCalendario[] = calendarApi
+        .getEvents()
+        .map((event: any) => ({
+          title: event.title,
+          start: event.start.toISOString(),
+          end:
+            (event.end && event.end.toISOString()) || event.start.toISOString(),
+          extendedProps: event.extendedProps,
+        }));
+
+      // Agrupa los eventos por día
+      const eventosPorDia = this.agruparEventosPorDia(eventos);
+
+      // Crea las sesiones basadas en los eventos agrupados
+      const sesiones = this.crearSesiones(eventosPorDia);
+
+      console.log(sesiones);
+      // Envía las sesiones al backend
+      this.enviarSesionesAlBackend(sesiones);
+    } else {
+      console.error('El componente del calendario no está definido.');
+    }
   }
 }

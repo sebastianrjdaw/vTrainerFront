@@ -6,6 +6,7 @@ import {
   Posicion,
   Entrenamiento,
   Etiqueta,
+  Sesion,
 } from '../interfaces/entrenador';
 @Injectable({
   providedIn: 'root',
@@ -88,5 +89,18 @@ export class EntrenadorService {
   eliminarEntrenamiento(id: number): Observable<any> {
     const deleteData = { id: id };
     return this.http.post(`${this.apiUrl}/delete-entrenamiento`, deleteData);
+  }
+
+  getSesionesUsuario(): Observable<Sesion[]> {
+    return this.http.get<Sesion[]>(`${this.apiUrl}/sesiones-user`);
+  }
+
+  crearSesion(sesionData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-sesion`, sesionData);
+  }
+
+  // Actualiza una sesión existente
+  actualizarSesion(sesionData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/update-sesion`, sesionData);
   }
 }
