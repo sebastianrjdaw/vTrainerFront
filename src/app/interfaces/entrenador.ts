@@ -31,3 +31,11 @@ export interface Entrenamiento {
   cuerpo: string;
   etiquetas: Etiqueta[];
 }
+
+export interface Sesion {
+  id?: number;
+  fecha: string;
+  hora_inicio: string;
+  hora_fin: string;
+  entrenamientos: number[];
+}

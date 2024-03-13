@@ -7,6 +7,7 @@ import { JugadoresCrudComponent } from './jugadores-crud/jugadores-crud.componen
 import { EquipoComponent } from './equipo/equipo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SesionEntrenamientosComponent } from './sesion-entrenamientos/sesion-entrenamientos.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SesionEntrenamientosComponent } from './sesion-entrenamientos/sesion-en
     FormsModule,
     ReactiveFormsModule,
     FullCalendarModule,
+    DragDropModule,
   ],
 })
 export class EntrenadorModule {}

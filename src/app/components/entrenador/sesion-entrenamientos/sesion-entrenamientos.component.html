@@ -7,11 +7,14 @@
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">Entrenamientos</h6>
         </div>
-        <div class="card-body lista-entrenamientos">
+        <div class="card-body lista-entrenamientos" #externalEvents>
           <!-- Itera sobre el arreglo de entrenamientos y muestra cada uno en una carta -->
           <div
             *ngFor="let entrenamiento of entrenamientosDef"
-            class="card card-entrenamiento"
+            [attr.data-id]="entrenamiento.id"
+            [attr.data-duration]="'01:00'"
+            [attr.title]="entrenamiento.titulo"
+            class="card-sm card-entrenamiento fc-event"
           >
             <div class="card-body">
               <h5 class="card-title">{{ entrenamiento.titulo }}</h5>
@@ -27,7 +30,10 @@
           </div>
           <div
             *ngFor="let entrenamiento of entrenamientosUser"
-            class="card card-entrenamiento"
+            [attr.data-id]="entrenamiento.id"
+            [attr.data-duration]="'01:00'"
+            [attr.title]="entrenamiento.titulo"
+            class="card-sm card-entrenamiento fc-event"
           >
             <div class="card-body">
               <h5 class="card-title">{{ entrenamiento.titulo }}</h5>
@@ -49,6 +55,9 @@
       <div class="card shadow mb-4">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">Calendario Semanal</h6>
+          <button class="btn btn-success" (click)="guardarSesiones()">
+            Guardar Sesiones
+          </button>
         </div>
         <div class="card-body">
           <full-calendar [options]="calendarOptions"></full-calendar>
