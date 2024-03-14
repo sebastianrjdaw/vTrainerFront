@@ -18,7 +18,7 @@ import {
 } from 'src/app/interfaces/entrenador';
 import { EntrenadorService } from 'src/app/services/entrenador.service';
 import timeGridPlugin from '@fullcalendar/timegrid';
-
+import Swal from 'sweetalert2';
 import { EventInput } from '@fullcalendar/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
@@ -32,38 +32,25 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
   @ViewChild('externalEvents') externalEvents: ElementRef | null = null;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
+
   entrenamientos: Entrenamiento[] = [];
   entrenamientosUser: Entrenamiento[] = [];
   entrenamientosDef: Entrenamiento[] = [];
   etiquetas: Etiqueta[] = [];
   sesiones: Sesion[] = [];
   eventosCalendario: EventInput[] = [];
+
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, interactionPlugin],
     editable: true,
     selectable: true,
     droppable: true,
-    events: this.eventosCalendario,
+    events: [],
     slotMinTime: '09:00:00',
     slotMaxTime: '22:00:00',
     hiddenDays: [0, 6],
     locale: 'es',
-    dateClick: (dateClickEvent) => {
-      // <-- add the callback here as one of the properties of `options`
-      console.log('DATE CLICKED !!!');
-    },
-
-    eventClick: (eventClickEvent) => {
-      console.log('EVENT CLICKED !!!');
-    },
-
-    eventDragStop: (eventDragStopEvent) => {
-      console.log(eventDragStopEvent.event.extendedProps);
-      console.log(eventDragStopEvent.event.extendedProps['entrenamientoid']);
-      console.log(eventDragStopEvent.event.extendedProps['entrenamientoId']);
-      console.log('EVENT DRAG STOP !!!');
-    },
   };
 
   constructor(
@@ -230,37 +217,53 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
   enviarSesionesAlBackend(sesiones: Sesion[]) {
     sesiones.forEach((sesion) => {
       this.entrenadorService.crearSesion(sesion).subscribe({
-        next: (respuesta) => console.log('Sesión guardada', respuesta),
+        next: (respuesta) =>
+          Swal.fire({
+            title: 'Sesiones Guardadas!',
+            icon: 'success',
+          }),
         error: (error) => console.error('Error al guardar sesión', error),
       });
     });
   }
 
   guardarSesiones() {
-    // Asegúrate de que la referencia al componente del calendario esté definida
-    if (this.calendarComponent && this.calendarComponent.getApi) {
-      const calendarApi = this.calendarComponent.getApi();
-      const eventos: EventoCalendario[] = calendarApi
-        .getEvents()
-        .map((event: any) => ({
-          title: event.title,
-          start: event.start.toISOString(),
-          end:
-            (event.end && event.end.toISOString()) || event.start.toISOString(),
-          extendedProps: event.extendedProps,
-        }));
+    Swal.fire({
+      title: 'Estas seguro de que quieres guardar la sesión?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // Asegúrate de que la referencia al componente del calendario esté definida
+        if (this.calendarComponent && this.calendarComponent.getApi) {
+          const calendarApi = this.calendarComponent.getApi();
+          const eventos: EventoCalendario[] = calendarApi
+            .getEvents()
+            .map((event: any) => ({
+              title: event.title,
+              start: event.start.toISOString(),
+              end:
+                (event.end && event.end.toISOString()) ||
+                event.start.toISOString(),
+              extendedProps: event.extendedProps,
+            }));
 
-      // Agrupa los eventos por día
-      const eventosPorDia = this.agruparEventosPorDia(eventos);
+          // Agrupa los eventos por día
+          const eventosPorDia = this.agruparEventosPorDia(eventos);
 
-      // Crea las sesiones basadas en los eventos agrupados
-      const sesiones = this.crearSesiones(eventosPorDia);
+          // Crea las sesiones basadas en los eventos agrupados
+          const sesiones = this.crearSesiones(eventosPorDia);
 
-      console.log(sesiones);
-      // Envía las sesiones al backend
-      this.enviarSesionesAlBackend(sesiones);
-    } else {
-      console.error('El componente del calendario no está definido.');
-    }
+          console.log(sesiones);
+          // Envía las sesiones al backend
+          this.enviarSesionesAlBackend(sesiones);
+        }
+      } else if (result.isDenied) {
+        Swal.fire('Las sesiones no fueron guardadas');
+      }
+    });
   }
 }

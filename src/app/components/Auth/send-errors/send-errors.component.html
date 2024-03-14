@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Reportar un Error</h3>
+  <div class="card shadow">
+    <div class="card-header">
+      <strong>Formulario de Error</strong>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="reporteErrorForm" (ngSubmit)="onReportarError()">
+        <!-- Aquí puedes incluir otros campos si son necesarios -->
+        <div class="form-group">
+          <label for="descripcionError"
+            ><strong>Descripción del Error</strong></label
+          >
+          <textarea
+            formControlName="mensaje"
+            class="form-control"
+            id="descripcionError"
+            rows="5"
+            placeholder="Describa el error en detalle"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-danger" type="submit">Reportar Error</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

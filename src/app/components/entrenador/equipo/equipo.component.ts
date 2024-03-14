@@ -64,8 +64,4 @@ export class EquipoComponent implements OnInit {
       }
     }
   }
-
-  volver() {
-    window.history.back();
-  }
 }

@@ -117,8 +117,4 @@ export class JugadoresCrudComponent implements OnInit {
       }
     }
   }
-
-  volver(): void {
-    this.mostrarFormulario = false;
-  }
 }

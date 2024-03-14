@@ -107,7 +107,27 @@ export class AuthService {
           break;
       }
     } else {
-      this.router.navigate(['/set-profile']);
+      this.router.navigate(['/']);
     }
+  }
+  /**
+   * Envía un mensaje de error al servidor.
+   * @param mensaje El mensaje de error a enviar.
+   * @returns Observable con la respuesta del servidor.
+   */
+  createMensaje(mensaje: {
+    mensaje: string;
+    tipo: string;
+    estado: number;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-mensaje`, mensaje);
+  }
+
+  /**
+   * Cierra la sesión del usuario.
+   */
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/']);
   }
 }

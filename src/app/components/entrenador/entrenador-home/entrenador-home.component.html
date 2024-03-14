@@ -9,7 +9,7 @@
       <!-- Sidebar - Brand -->
       <a
         class="sidebar-brand d-flex align-items-center justify-content-center"
-        href="index.html"
+        [routerLink]="['/entrenador/main']"
       >
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-volleyball-ball"></i>
@@ -20,43 +20,48 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0" />
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/entrenador/main']">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-
       <!-- Additional Links -->
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/entrenador/equipo']">
-          <i class="fas fa-fw fa-link"></i>
+          <i class="fas fa-fw fa-people-group"></i>
           <span>Equipo</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/entrenador/jugadores']">
-          <i class="fas fa-fw fa-link"></i>
+          <i class="fas fa-fw fa-user-plus"></i>
           <span>Jugadores</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/entrenador/entrenamientos']">
-          <i class="fas fa-fw fa-link"></i>
+          <i class="fas fa-fw fa-note-sticky"></i>
           <span>Entrenamientos</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/entrenador/sesiones']">
-          <i class="fas fa-fw fa-link"></i>
+          <i class="fas fa-fw fa-calendar"></i>
           <span>Sesiones Entrenamientos</span>
         </a>
       </li>
-
+      <div class="sidebar-divider-custom">
+        <hr class="sidebar-divider my-0" />
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesion</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/entrenador/errors']">
+          <i class="fas fa-bug"></i>
+          <span>Reportar un error</span>
+        </a>
+      </li>
       <!-- Rest of your sidebar links -->
     </ul>
-    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
