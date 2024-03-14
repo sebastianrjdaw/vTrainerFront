@@ -97,17 +97,17 @@ export class AuthService {
     if (tipoUsuario) {
       switch (tipoUsuario) {
         case 'jugador':
-          this.router.navigate(['/jugador']);
+          this.router.navigate(['/jugador/main']);
           break;
         case 'entrenador':
           this.router.navigate(['/entrenador/main']);
           break;
         default:
-          this.router.navigate(['/set-profile']);
+          this.router.navigate(['/']);
           break;
       }
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(['/set-profile']);
     }
   }
   /**

@@ -20,6 +20,13 @@ const routes: Routes = [
         (m) => m.EntrenadorModule
       ),
   },
+  {
+    path: 'jugador',
+    loadChildren: () =>
+      import('./components/jugador/jugador.module').then(
+        (m) => m.JugadorModule
+      ),
+  },
 ];
 
 @NgModule({
