@@ -59,4 +59,7 @@ export class SetProfileComponent implements OnInit {
       },
     });
   }
+  cancelar() {
+    this.authService.logout();
+  }
 }

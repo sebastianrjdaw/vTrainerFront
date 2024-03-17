@@ -14,9 +14,9 @@
   cursor: pointer;
 }
 
-.profile-image-size {
-  height: 660px;
-  width: 332px;
+.profile-image {
+  height: 600px;
+  width: 330px;
   object-fit: cover; /* Esto asegurará que la imagen cubra el área sin distorsionarse */
 }
 
