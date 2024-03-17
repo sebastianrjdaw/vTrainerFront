@@ -6,6 +6,9 @@ import { SetProfileComponent } from './components/Auth/set-profile/set-profile.c
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { JugadorHomeComponent } from './components/jugador/jugador-home/jugador-home.component';
 import { EntrenadorHomeComponent } from './components/entrenador/entrenador-home/entrenador-home.component';
+import { JugadorGuard } from './guards/jugador.guard';
+import { EntrenadorGuard } from './guards/entrenador.guard';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'login', component: LoginComponent },
@@ -19,6 +22,7 @@ const routes: Routes = [
       import('./components/entrenador/entrenador.module').then(
         (m) => m.EntrenadorModule
       ),
+    canActivate: [EntrenadorGuard],
   },
   {
     path: 'jugador',
@@ -26,7 +30,9 @@ const routes: Routes = [
       import('./components/jugador/jugador.module').then(
         (m) => m.JugadorModule
       ),
+    canActivate: [JugadorGuard],
   },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

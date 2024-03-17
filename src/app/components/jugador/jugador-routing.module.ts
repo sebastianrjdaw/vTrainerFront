@@ -4,6 +4,7 @@ import { JugadorHomeComponent } from './jugador-home/jugador-home.component';
 import { SendErrorsComponent } from '../Auth/send-errors/send-errors.component';
 import { MainViewComponent } from './main-view/main-view.component';
 import { JugadorSesionesComponent } from './jugador-sesiones/jugador-sesiones.component';
+import { InfoJugadorComponent } from './info-jugador/info-jugador.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'main', component: MainViewComponent },
       { path: 'sesiones', component: JugadorSesionesComponent },
+      { path: 'info', component: InfoJugadorComponent },
       { path: 'errors', component: SendErrorsComponent },
     ],
   },

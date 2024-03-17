@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <h3 class="text-dark mb-4">Información General</h3>
+  <div class="card shadow">
+    <div class="card-header">
+      <h4 class="text-primary">Perfil del Jugador</h4>
+    </div>
+    <div class="card-body">
+      <div *ngIf="jugador">
+        <p>
+          <strong>Nombre:</strong> {{ jugador.nombre }} {{ jugador.apellidos }}
+        </p>
+        <p><strong>Dorsal:</strong> {{ jugador.dorsal }}</p>
+        <p><strong>Altura:</strong> {{ jugador.altura }} cm</p>
+        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+      </div>
+      <div *ngIf="jugador?.equipo">
+        <h5 class="text-secondary">Información del Equipo</h5>
+        <p><strong>Competición:</strong> {{ jugador?.equipo?.competicion }}</p>
+        <p><strong>Nombre:</strong> {{ jugador?.equipo?.nombre }}</p>
+        <p><strong>Ubicación:</strong> {{ jugador?.equipo?.ubicacion }}</p>
+      </div>
+      <p>
+        Si tu información es incorrecta , por favor comunicalo al entrenado
+        responsable del equipo
+      </p>
+    </div>
+  </div>
+</div>

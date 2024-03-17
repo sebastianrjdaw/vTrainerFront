@@ -51,4 +51,11 @@ export interface EventosPorDia {
   [fecha: string]: EventoCalendario[];
 }
 
-// Asegúrate de que la estructura que pasas a `crearSesiones` y luego a `enviarSesionesAlBackend` coincida con la estructura de tu tipo `Sesion`.
+export interface InfoJugador {
+  nombre: string;
+  apellidos: string;
+  posicion: string; // Parece haber un typo en el JSON proporcionado, debería ser "posicion"
+  dorsal: number;
+  altura: number;
+  equipo: Equipo;
+}

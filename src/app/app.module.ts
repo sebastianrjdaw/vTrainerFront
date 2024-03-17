@@ -15,6 +15,7 @@ import { EntrenadorHomeComponent } from './components/entrenador/entrenador-home
 import { JugadorHomeComponent } from './components/jugador/jugador-home/jugador-home.component';
 import { MainViewComponent } from './components/entrenador/main-view/main-view.component';
 import { SendErrorsComponent } from './components/Auth/send-errors/send-errors.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SendErrorsComponent } from './components/Auth/send-errors/send-errors.c
     JugadorHomeComponent,
     MainViewComponent,
     SendErrorsComponent,
+    NotFoundComponent,
   ],
   imports: [
     FormsModule,

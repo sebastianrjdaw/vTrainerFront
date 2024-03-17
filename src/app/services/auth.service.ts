@@ -65,6 +65,22 @@ export class AuthService {
   }
 
   /**
+   * Obtiene el tipo de perfil del usuario desde el servidor.
+   * @returns Observable con el tipo de perfil del usuario.
+   */
+  obtenerTipoPerfil(): Observable<string | null> {
+    return this.http
+      .get<{ Perfil: { tipoUsuario: string } }>(`${this.apiUrl}/get-perfil`)
+      .pipe(
+        map((response) => response.Perfil.tipoUsuario),
+        catchError((error) => {
+          console.error(error);
+          return of(null); // En caso de error, retornamos null
+        })
+      );
+  }
+
+  /**
    * Obtiene el tipo de perfil del usuario y redirige a la ruta correspondiente.
    * Si no tiene perfil, redirige a la ruta para establecer el perfil.
    */
@@ -75,18 +91,10 @@ export class AuthService {
       return;
     }
 
-    this.http
-      .get(`${this.apiUrl}/get-perfil`)
-      .pipe(
-        map((response: any) => response.Perfil.tipoUsuario),
-        catchError((error) => {
-          console.error(error);
-          return of(null); // En caso de error, retornamos null
-        })
-      )
-      .subscribe((tipoUsuario) => {
-        this.redirigirSegunTipoUsuario(tipoUsuario);
-      });
+    // Usamos la función obtenerTipoPerfil() para obtener el tipo de usuario
+    this.obtenerTipoPerfil().subscribe((tipoUsuario) => {
+      this.redirigirSegunTipoUsuario(tipoUsuario);
+    });
   }
 
   /**

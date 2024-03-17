@@ -5,9 +5,10 @@ import { JugadorRoutingModule } from './jugador-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainViewComponent } from './main-view/main-view.component';
 import { JugadorSesionesComponent } from './jugador-sesiones/jugador-sesiones.component';
+import { InfoJugadorComponent } from './info-jugador/info-jugador.component';
 
 @NgModule({
-  declarations: [MainViewComponent, JugadorSesionesComponent],
+  declarations: [MainViewComponent, JugadorSesionesComponent, InfoJugadorComponent],
   imports: [
     CommonModule,
     JugadorRoutingModule,

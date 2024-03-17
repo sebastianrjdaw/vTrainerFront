@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Equipo, Sesion } from '../interfaces/entrenador';
+import { Equipo, InfoJugador, Sesion } from '../interfaces/entrenador';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class JugadorService {
     return this.http.get<Sesion[]>(`${this.apiUrl}/sesiones-user`);
   }
 
-  getEquipo(): Observable<Equipo> {
-    return this.http.get<Equipo>(`${this.apiUrl}/sesiones-semana`);
+  getInfo(): Observable<InfoJugador> {
+    return this.http.get<InfoJugador>(`${this.apiUrl}/user-jugador`);
   }
 }

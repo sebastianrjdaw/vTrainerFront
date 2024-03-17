@@ -30,6 +30,9 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
   styleUrls: ['./sesion-entrenamientos.component.css'],
 })
 export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
+  // ViewChild se usa para referenciar elementos del template.
+  // Aquí se obtienen referencias tanto a los eventos externos como al componente del calendario.
+
   @ViewChild('externalEvents') externalEvents: ElementRef | null = null;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
 
@@ -136,6 +139,7 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.externalEvents) {
+      // Draggable permite arrastrar elementos, aquí se configura para los eventos del calendario.
       new Draggable(this.externalEvents.nativeElement, {
         itemSelector: '.fc-event',
         eventData: function (eventEl) {
@@ -151,6 +155,7 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //Froemateador
   formatDate(date: Date): string {
     let d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -163,6 +168,7 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     return [year, month, day].join('-');
   }
 
+  // agruparEventosPorDia agrupa los eventos del FullCalendar por día.
   agruparEventosPorDia(eventos: EventoCalendario[]): EventosPorDia {
     const eventosPorDia: EventosPorDia = {};
 
@@ -186,6 +192,7 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
     return eventosPorDia;
   }
 
+  // crearSesiones transforma los eventos agrupados por día en sesiones de entrenamiento.
   crearSesiones(eventosPorDia: EventosPorDia): Sesion[] {
     return Object.keys(eventosPorDia).map((fecha) => {
       const eventosDelDia = eventosPorDia[fecha];
@@ -197,7 +204,6 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
         )
       );
 
-      // Asumiendo que `start` y `end` son objetos Date, o puedes convertirlos usando new Date()
       const horaInicio = new Date(eventosDelDia[0].start)
         .toLocaleString('sv-SE')
         .replace(' ', 'T');
@@ -235,9 +241,7 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Si',
       denyButtonText: `No`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        // Asegúrate de que la referencia al componente del calendario esté definida
         if (this.calendarComponent && this.calendarComponent.getApi) {
           const calendarApi = this.calendarComponent.getApi();
           const eventos: EventoCalendario[] = calendarApi
@@ -256,8 +260,6 @@ export class SesionEntrenamientosComponent implements OnInit, AfterViewInit {
 
           // Crea las sesiones basadas en los eventos agrupados
           const sesiones = this.crearSesiones(eventosPorDia);
-
-          console.log(sesiones);
           // Envía las sesiones al backend
           this.enviarSesionesAlBackend(sesiones);
         }
